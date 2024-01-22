@@ -1,0 +1,8 @@
+.env
+form-handle/commands/run/
+form-handle/commands/~
+hide/
+.*/
+node_modules/
+.*js
+*html
