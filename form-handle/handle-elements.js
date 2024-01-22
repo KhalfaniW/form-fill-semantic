@@ -2,8 +2,6 @@ import { retrieveFrameSnapshot } from "puppeteer-snapshot";
 import { findElements, findAllByRoleInAxTree } from "./mysearch.js";
 import * as _d from "deepdash/standalone";
 
-//TODO copy from
-//    /home/khalfani/Projects/MainProjects/Projects/form-fill-semantic/form-handle/commands/run/log-finding-elements.js
 
 //gets even the iframe elements
 const getClient = (page) => {
@@ -28,25 +26,7 @@ export async function extractByRoleAllFrames(page, role) {
           AxTree: tree,
           role,
         });
-        // console.log(
-        //   frame._id,
-        //   frame.target,+
-        //   frame._client ? frame._client() : "no client",
-        //   JSON.stringify(tree, null, 2).length,
-        // );
-
-        // fs.writeFileSync(
-        //   "./view/" + frame._id + ".json",
-        //   JSON.stringify(tree, null, 2),
-        // );
-        // fs.writeFileSync(
-        //   "./view/_snapshot_" + frame._id + ".json",
-        //   JSON.stringify(
-        //     await retrieveFrameSnapshot(frame, frame._id),
-        //     null,
-        //     2,
-        //   ),
-        // );
+  
         return foundElements.map((el) => ({ ...el, frame: frame }));
       }),
     )
@@ -78,13 +58,6 @@ export async function extractByRoleAllFrames(page, role) {
 export async function extractByRoleAllFramesUsingSnapshots(page, role) {
   const frames = await page.frames();
   console.log("frames", frames.length);
-  // const cons = Promise.all(
-  //   frames.map(async (f, i) => {
-  //     console.log(i);
-  //     return await f.executionContext();
-  //   }),
-  // );
-  //rewarite as for loop
   let c;
   for (const frame of frames) {
     console.log("boop");

@@ -3,8 +3,7 @@ import { findElements, findAllByRoleInAxTree } from "./mysearch.js";
 import * as _d from "deepdash/standalone";
 
 //uses puppeter v12
-//TODO copy from
-//    /home/khalfani/Projects/MainProjects/Projects/form-fill-semantic/form-handle/commands/run/log-finding-elements.js
+
 
 //gets even the iframe elements
 const getClient = (page) => {
@@ -28,25 +27,7 @@ export async function extractByRoleAllFrames(page, role) {
           AxTree: tree,
           role,
         });
-        // console.log(
-        //   frame._id,
-        //   frame.target,+
-        //   frame._client ? frame._client() : "no client",
-        //   JSON.stringify(tree, null, 2).length,
-        // );
 
-        // fs.writeFileSync(
-        //   "./view/" + frame._id + ".json",
-        //   JSON.stringify(tree, null, 2),
-        // );
-        // fs.writeFileSync(
-        //   "./view/_snapshot_" + frame._id + ".json",
-        //   JSON.stringify(
-        //     await retrieveFrameSnapshot(frame, frame._id),
-        //     null,
-        //     2,
-        //   ),
-        // );
         return foundElements.map((el) => ({ ...el, frame: frame }));
       }),
     )
@@ -87,50 +68,7 @@ export async function extractByRoleAllFramesUsingSnapshots(page, role) {
 
   return matchedElements;
 }
-/*
-export async function selectByRoleAndNameAllFrames(page, { role, name }) {
-  const frames = [...(await page.frames())].concat(page);
-  console.log("abc", await page.$(`aria/${name}[role="${role}"]`));
-  return null;
 
-  const allSearches = await Promise.all(
-    frames.map(async (frame) => {
-      console.log(frame, `aria/${name}[role="${role}"]`);
-      const contentLength = (await frame.content()).length;
-      if (contentLength < 5000) {
-        return [];
-      }
-      return await frame.$$(`aria/${name}[role="${role}"]`);
-      // return await frame.$$(`::-p-aria([name="${name}"])`);
-      return await frame.$$(`::-p-aria([name=${name}])`);
-      // console.log((await frame.content()).slice(0, 100));
-      // await frame.$("a");
-      // return [];
-    }),
-  );
-
-  // .map((frame) => async () => await frame.$(`aria/${name}[role="${role}"]`))
-  // .reduce((currentPromise, nextPromise) => {
-  //   return currentPromise.then((promiseResults) => {
-  //     console.log(promiseResults);
-  //     return nextPromise().then((newPromise) => [
-  //       ...promiseResults,
-  //       newPromise,
-  //     ]);
-  //   });
-  // }, Promise.resolve([]));
-
-  console.log("DONE", { allSearches });
-  return allSearches.filter(Boolean);
-}
-*/
-export async function selectByBackendId(frameOrPage, backendDOMNodeId) {
-  const randomElementForFunction = await frameOrPage.$("html");
-
-  const context = await frameOrPage.executionContext();
-  const element = await context._adoptBackendNodeId(backendDOMNodeId);
-  return element;
-}
 
 async function extractRadioChoiceOptions(
   page,

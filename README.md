@@ -1,8 +1,8 @@
-#Goal
+## Goal
 
 use AI semantic search  to create a dynamic form filller
 
-#how
+## how
 
 Access inputs using accesibility features puppeteer
 

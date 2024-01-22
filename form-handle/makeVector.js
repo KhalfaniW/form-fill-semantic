@@ -17,12 +17,8 @@ export default async function makeVector(text) {
     });
     const output = await response.json();
 
-    array = output; //JSON.parse(`[${numberList}]`);
-    // fs.appendFileSync("./vector-output/outut-string.txt", numberList);
-    // fs.appendFileSync(
-    //   "./vector-output/outut-vector.txt",
-    //   JSON.stringify(output.tolist()),
-    // );
+    array = output; 
+ 
   } catch (e) {
     console.log({ text, numberList, array, m: e.message, s: e.stack });
   }

@@ -13,7 +13,7 @@ app.post("/make-vector", async (req, res) => {
   let array = null;
 
   try {
-    //  const output = await extractor(text, { pooling: "mean", normalize: true });
+
     numberList = (
       await extractor(text, { pooling: "mean", normalize: true })
     ).data.toString();

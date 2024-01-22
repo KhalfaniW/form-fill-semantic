@@ -125,86 +125,32 @@ export async function findClosestMatchNode({ snapshot, role, searchName }) {
 }
 //make vectors once for performaance
 export async function makePhraseVectors(phrases) {
-    return  await Promise.all(
-        phrases.map(async (phrase) => {
-            return {
-                phrase: phrase,
-                vector: await makeVector(phrase)
-            };
-        }),
-    )
-}
-
-
-//phraseVectors:{phrase,vector}
-
-export async function sortBySimilarity({ phrases, phraseVectors, goalPhrase }) {
-    const currentPhrasesVector = phraseVectors || (await makePhraseVectors(phrases));
-    
-    const goalVector = await makeVector(goalPhrase);
-
-    return currentPhrasesVector.map((phraseVector) => ({
-        phrase: phraseVector.phrase,
-        goalSimilarity: cosineSimilarty(phraseVector.vector, goalVector),
-    })).toSorted((phraseInfo1, phraseInfo2) => {
-        return phraseInfo2.goalSimilarity - phraseInfo1.goalSimilarity;
-    });
-}
-
-
-/*export async function findClosestSemanticMatches({
-  listOfMatches,
-  snapshot,
-  role,
-  myData = {
-    firstName: "Farhaj",
-    lastName: "McCloud",
-    password: "Fjsdaf32j9@3",
-    username: "swift-broud",
-    email: "t.khalfani.wad@outlook.com",
-    phone: "4233949992",
-    phoneNumber: "fads",
-    country: "United States",
-    zipNumber: "60641",
-  },
-}) {
-  const myDataVectors = await Promise.all(
-    Object.keys(myData).map(async (myDataKey) => await makeVector(myDataKey)),
-  );
-
-  return Promise.all(
-    listOfMatches.map(async ({ name: elementName }) => {
-      const {
-        index: closestResponseIndex,
-        similarity: closestResponseSImilarity,
-      } = getClosestVectorInfo(myDataVectors, await makeVector(elementName));
-
+  return await Promise.all(
+    phrases.map(async (phrase) => {
       return {
-        elementName,
-        similarity: closestResponseSImilarity,
-        myDataKey: Object.keys(myData)[closestResponseIndex],
+        phrase: phrase,
+        vector: await makeVector(phrase),
       };
     }),
   );
 }
-*/
-function getClosestVectorInfo(vectorList, elementVector) {
-  return vectorList.reduce(
-    (closestIndex, currentVector, currentIndex) => {
-      const similarity = cosineSimilarty(elementVector, currentVector);
-      if (similarity > closestIndex.similarity) {
-        return {
-          index: currentIndex,
-          similarity: similarity,
-        };
-      }
-      return closestIndex;
-    },
-    {
-      index: -1,
-      similarity: -1,
-    },
-  );
+
+//phraseVectors:{phrase,vector}
+
+export async function sortBySimilarity({ phrases, phraseVectors, goalPhrase }) {
+  const currentPhrasesVector =
+    phraseVectors || (await makePhraseVectors(phrases));
+
+  const goalVector = await makeVector(goalPhrase);
+
+  return currentPhrasesVector
+    .map((phraseVector) => ({
+      phrase: phraseVector.phrase,
+      goalSimilarity: cosineSimilarty(phraseVector.vector, goalVector),
+    }))
+    .toSorted((phraseInfo1, phraseInfo2) => {
+      return phraseInfo2.goalSimilarity - phraseInfo1.goalSimilarity;
+    });
 }
 
 function cosineSimilarty(vectorA, vectorB) {

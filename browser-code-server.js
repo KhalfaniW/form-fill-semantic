@@ -5,7 +5,7 @@ import { nodeExternalsPlugin } from "esbuild-node-externals";
 import path from "path";
 import cors from "cors";
 import { init } from "./init.js";
-//import {semanticSelect} from "./form-handle/mysearch.js";
+
 import fs from "fs";
 const app = express();
 const port = process.env.PORT || 8900;
@@ -57,7 +57,6 @@ app.get("/code", async (req, res) => {
   });
   const builtCodeString = fs.readFileSync(outFile, "utf8");
 
-  // console.log(builtCodeString);
 
   res.send(builtCodeString);
 });
